@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block title %} User Detail {% endblock title %}
+
+{% block main %}
+  <h2>User Detail</h2>
+  <div><strong>User Id:  </strong>{{ user.id }}</div>
+  <div><strong>Username:  </strong>{{user.username}}</div>
+  <div><strong>Email:  </strong>{{user.email}}</div>
+{% endblock main %}
