@@ -27,68 +27,68 @@ and the db.session to execute queries
 """
 # define models, 'CamelCase' names will be converted to 'snake_case' table name
 class User(db.Model):  # table name will be 'user'
-  id = db.Column(db.Integer, primary_key=True) # column name will be 'id'
-  username = db.Column(db.String, unique=True, nullable=False)
-  email = db.Column(db.String) # column name will be 'email'
+	id = db.Column(db.Integer, primary_key=True) # column name will be 'id'
+	username = db.Column(db.String, unique=True, nullable=False)
+	email = db.Column(db.String) # column name will be 'email'
 """
 
 with app.app_context():
-  db.create_all()
+	db.create_all()
 
 
 @app.route("/")
 def index():
-  return "Thanks"
+	return "Thanks"
 
 
 @app.route("/users")
 def user_list():
-  """ --- db.session.execute(db.select(...)) constructs a query to select data from database
-    --- Query result will user a method 'Result.scalars()' to get list of results and
-       'Result.scalar()' for single result
-  """
-  users = db.session.execute(db.select(User).order_by(User.username)).scalars()
-  return render_template("user_list.html", users=users)
+	""" --- db.session.execute(db.select(...)) constructs a query to select data from database
+	--- Query result will user a method 'Result.scalars()' to get list of results and
+		 'Result.scalar()' for single result
+	"""
+	users = db.session.execute(db.select(User).order_by(User.username)).scalars()
+	return render_template("user_list.html", users=users)
 
 
 @app.route("/users/create", methods=["GET", "POST"])
 def user_create():
-  if request.method == 'POST':
-   user = User(
-    username = request.form.get("username"),
-    email = request.form.get("email")
-   )
-   # adds a user to the session
-   db.session.add(user)
-   # Remembers the user just added, to the database
-   db.session.commit()
-   return redirect(url_for("user_detail", id=user.id))
+	if request.method == 'POST':
+	 
+		user = User(
+		username = request.form.get("username"),
+		email = request.form.get("email")
+		)
+		# adds a user to the session
+		db.session.add(user)
+		# Remembers the user just added, to the database
+		db.session.commit()
+		return redirect(url_for("user_detail", id=user.id))
 
-  return render_template("create_users.html")
+	return render_template("create_users.html")
 
 
 @app.route("/user/<int:id>")
 def user_detail(id):
-  user = db.get_or_404(User, id)
-  return render_template("user_detail.html", user=user)
+	user = db.get_or_404(User, id)
+	return render_template("user_detail.html", user=user)
 
 
 @app.route("/user/<int:id>/delete", methods=["GET", "POST"])
 def user_delete(id):
-  user = db.get_or_404(User, id)
+	user = db.get_or_404(User, id)
 
-  if request.method == "POST":
-   # delete the user from session
-   db.session.delete(user)
+	if request.method == "POST":
+		# delete the user from session
+		db.session.delete(user)
 
-   # Update the deletion of the user from the database
-   db.session.commit()
-   return redirect(url_for('user_list'))
+		# Update the deletion of the user from the database
+		db.session.commit()
+		return redirect(url_for('user_list'))
 
-  return render_template("user_delete.html", user=user)
-
+	return render_template("user_delete.html", user=user)
 
 
 if __name__ == '__main__':
-  app.run(debug=True)
+	app.run(debug=True)
 
