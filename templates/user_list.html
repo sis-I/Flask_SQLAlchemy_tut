@@ -10,5 +10,8 @@
       <li>Username: <strong>{{ user.username }}</strong></li>
       <li sytle="margin-bottom: 20px;">Email: <strong>{{ user.email }}</strong></li>
     </ul>
+    <button class="btn"><a href="user/{{user.id}}/delete">Delete</a></button>
+    <button class="btn"><a href="{{ url_for('user_edit', user_id=user.id) }}">Edit</a></button>
+
   {% endfor %}
 {% endblock main %}

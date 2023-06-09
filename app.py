@@ -1,10 +1,10 @@
 """
 This app is for trial of Flask_SQLAlchemy using flask-sqlalchemy documentation
 """
-
 from flask import Flask, render_template, url_for, redirect, request
 #from flask_sqlalchemy import SQLAlchemy
 from models import db, User
+
 
 # create the extension
 #db = SQLAlchemy()
@@ -72,6 +72,25 @@ def user_create():
 def user_detail(id):
 	user = db.get_or_404(User, id)
 	return render_template("user_detail.html", user=user)
+
+
+@app.route("/user/<int:user_id>/edit", methods=["GET", "POST"])
+def user_edit(user_id):
+	user = db.get_or_404(User, user_id)
+	if request.method == "POST":
+		username = request.form.get("username")
+		email = request.form.get("email")
+		user.username = username
+		user.email = email
+		
+		#user.verified = True # Tell session that current user is modified
+		
+		# or add modified user to the session		
+		db.session.add(user) 
+		db.session.commit() # update the database with modified entry
+		return redirect(url_for('user_list'))
+
+	return render_template("user_edit.html", user=user)
 
 
 @app.route("/user/<int:id>/delete", methods=["GET", "POST"])

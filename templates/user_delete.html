@@ -1,18 +1,17 @@
 {% extends 'layout.html' %}
 
-{% block title %}Delete User{% endblock title %}
 
 
 {% block main %}
-  <div>
-    <form action="/user/{{user.id}}/delete" method="post">
-      <label for="username">Username: </label><br>
-      <input id="username" type="text" name="username" placeholde="Username" value={{user.username}}>
-      <br><br>
-      <label for="email">Email: </label> <br>
-      <input id="email" type="email" name="email" placeholder="email" value="{{user.email}}">
-      <br><br>
-      <input type="submit" value="Delete">
-    </form>
+<h1>
+  {% block title %}Delete User{% endblock title %}
+</h1>
+<div>
+  <b><p>Delete {{ user.username}}?<p></b>
+  <form action="{{ url_for('user_delete', id=user.id)}}" method="post">
+    <input type="hidden" name="user" value="{{ user.id }}">
+    <input type="submit" value="Delete"
+     onclick="return confirm('Are you sure you want to delete {{ user.username}}?')">
+  </form>
   </div>
 {% endblock main %}

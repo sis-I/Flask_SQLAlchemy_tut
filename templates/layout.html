@@ -4,9 +4,44 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Flask SQLAlchemy tutorial{% endblock title %}</title>
+  <style>
+    .main {
+      margin-top: 30px;
+    }
+
+    button, input[type=submit] {
+      background-color: #3c3c3c;
+      border-radius: 4px;
+      border: none;
+      padding: 6px 12px;
+      color: #ffac00;
+      font-size: 1.03em;
+      margin-bottom: 8px;
+    }
+    
+    .btn a {
+      color: #ffac00;
+      text-decoration: none;
+    }
+
+    nav a {
+      margin-right: 50px;
+      color: #00d3a1;
+      font-size: 2.4em;
+      text-decoration: none;
+    }
+  </style>
+  <title>{% block title %}{% endblock title %}</title>
 </head>
 <body>
-  {% block main %}{% endblock main %}
+  <nav>
+    <a href="/users">Users</a>
+    <a href="/users/create">Create</a>
+    <a href="#">About</a>
+  </nav>
+  <hr>
+  <div class="main">
+    {% block main %}{% endblock main %}
+  </div>
 </body>
 </html>
